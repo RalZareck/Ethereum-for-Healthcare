@@ -59,6 +59,76 @@ pnet$ echo '<password>' > node1/password.txt
 ```
 **Create a Genesis file:**
 
-The Genesis file is used to initialize the blockchain with a Genesis Block, based on the parameters contained in a genesis.json file.
+The Genesis file is used to initialize the blockchain with a Genesis Block, based on the parameters contained in the genesis.json file used.
 
 Puppeth helps create the genesis file:
+
+Start puppeth :
+```
+pnet$ puppeth
+```
+Then enter a network name :
+```
+ Please specify a network name to administer (no spaces, hyphens or capital letters please)
+> pnet
+Sweet, you can set this via --network=pnet next time!
+INFO [09-17|11:43:03.307] Administering Ethereum network       	name=pnet
+WARN [09-17|11:43:03.367] No previous configurations found     	path=/home/pnet/.puppeth/pnet
+```
+After that, you will have to make some choices to create the genesis file from scratch. Here are the choices :
+```
+What would you like to do? (default = stats)
+ 1. Show network stats
+ 2. Configure new genesis
+ 3. Track new remote server
+ 4. Deploy network components
+> 2
+What would you like to do? (default = create)
+ 1. Create new genesis from scratch
+ 2. Import already existing genesis
+> 1
+Which consensus engine to use? (default = clique)
+ 1. Ethash - proof-of-work
+ 2. Clique - proof-of-authority
+> 2
+How many seconds should blocks take? (default = 15)
+> 3
+Which accounts are allowed to seal? (mandatory at least one)
+> 0x95491f49d86d68ab43f55db5b6679b4d90f1ea84
+> 0x
+Which accounts should be pre-funded? (advisable at least one)
+> 0x95491f49d86d68ab43f55db5b6679b4d90f1ea84
+> 0x
+Should the precompile-addresses (0x1 .. 0xff) be pre-funded with 1 wei? (advisable yes)
+> yes
+Specify your chain/network ID if you want an explicit one (default = random)
+> 7410
+INFO [09-20|10:07:39.675] Configured new genesis block
+```
+Then you can export your genesis configuration into a .json file
+```
+What would you like to do? (default = stats)
+ 1. Show network stats
+ 2. Manage existing genesis
+ 3. Track new remote server
+ 4. Deploy network components
+> 2
+ 1. Modify existing configurations
+ 2. Export genesis configurations
+ 3. Remove genesis configuration
+> 2
+Which folder to save the genesis specs into? (default = current)
+  Will create pnet.json, pnet-aleth.json, pnet-harmony.json, pnet-parity.json
+>
+INFO [09-20|10:07:58.879] Saved native genesis chain spec      	path=pnet.json
+ERROR[09-20|10:07:58.879] Failed to create Aleth chain spec    	err="unsupported consensus engine"
+ERROR[09-20|10:07:58.915] Failed to create Parity chain spec   	err="unsupported consensus engine"
+INFO [09-20|10:07:58.916] Saved genesis chain spec             	client=harmony path=pnet-harmony.json
+What would you like to do? (default = stats)
+ 1. Show network stats
+ 2. Manage existing genesis
+ 3. Track new remote server
+ 4. Deploy network components
+> ^C // Ctrl+c to exit
+```
+

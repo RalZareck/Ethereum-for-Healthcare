@@ -135,10 +135,14 @@ Once the genesis file is created, we have to edit the file and modify a paramete
 ```
 "period": 3 -> "period": 0,
 ```
+**Initialize the node :**
+
 Now we can initialize the node with the file we juste have created.
 ```
 pnet$ geth --datadir node1/ init pnet.json
 ```
+**Start the geth console :**
+
 Now that everything is set up, we can start the geth console :
 ```
 geth --port 3010 --networkid 7410 --datadir=./node1 --syncmode "full" --maxpeers=50  --rpc --rpcport 8520 --rpcaddr <IP_address> --rpccorsdomain "*" --rpcapi "eth,net,web3,personal,miner" --allow-insecure-unlock console 2 >> eth.log
@@ -178,10 +182,18 @@ Start mining :
 ```
 miner.start() // null
 ```
+Open the log file (not in the geth console) :
+```
+$ tail -f eth.log
+```
 
- 
- 
- 
- 
- 
- 
+**How to connect Multiple node to the POA network:**
+
+First we have to do everything that we previously did with first node then we can add peers using the geth console on the node 2 :
+```
+admin.addPeer('enode://<node1_account_address>@<node1_IP_address>:3010') // true
+```
+We can check that nodes are connected with this command in the geth console of node 1 :
+```
+admin.peers
+```

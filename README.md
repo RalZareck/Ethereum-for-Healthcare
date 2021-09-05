@@ -2,11 +2,11 @@
 
 ## Prerequisits
 
-We have used Ubuntu 18.04.5 (64bit) in a Virtual Machine (VirtualBox for example) to build this private network.
+We have used **Ubuntu 18.04.5 (64bit)** in a Virtual Machine (VirtualBox for example) to build this private network.
 
 First, we will have to install Go Implementation of Ethereum, named "Geth". 
 
-To do this, we will add a PPA (Personal Package Archives) tour our apt repositories:
+To do this, we will add a PPA (Personal Package Archives) to our apt repositories:
 ```
 ~$ sudo add-apt-repository -y ppa:ethereum/ethereum
 ```
@@ -57,3 +57,8 @@ Remember to save the puclic address of the key to a file, as well as the passwor
 pnet$ echo '4B39dA0C0914CFc3525A6CC8B5893d60032F9950' >> accounts.txt
 pnet$ echo '<password>' > node1/password.txt
 ```
+**Create a Genesis file:**
+
+The Genesis file is used to initialize the blockchain with a Genesis Block, based on the parameters contained in a genesis.json file.
+
+Puppeth helps create the genesis file:

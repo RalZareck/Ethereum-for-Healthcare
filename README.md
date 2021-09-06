@@ -31,7 +31,47 @@ We can now start the setup for the ethereum network.
 
 ## Setup Scripts
 
-We have made some setup scripts that can help you setup the ethereum network
+We have made some setup scripts that can help you setup the ethereum node:
+
+**setup.sh:**
+This script will setup the node
+
+You start by giving the name of the new node (or account):
+```
+Name of node to create/manage: node1
+```
+It will the start geth to create the account if it does not exist
+
+After the account creation, you will be able to copy and past the Account public key and password you have chosen:
+```
+Remember to save you account public address key and password to a file
+Account public key: 0xe3440e02675AA02B06F92ed0a05D4ABD2988E57E
+Saved at ./accounts.txt
+
+Password: 
+Saved at ./node1/password.txt
+```
+Then, you will be invited to enter a Genesis file:
+```
+Genesis file (press enter to start the genesis file configuration): 
+```
+If you didn't create the genesis file beforhand, you will be able to start puppeth in order to create/configure the genesis file (see the section **Create a Genesis file:** for more information on how to do it)
+```
+Do tou want to start puppeth [Y/N]?
+```
+If you did create the genesis file, you can enter it here, and the programm will then initialise the node with the given genesis file and create the start script which will start the console for the node. A few information are needed:
+```
+Creation of the console command for this node, stored in the 'START_node1' script:
+Console port (default=3010): 
+Networkid (default=7410): 
+RPC port (default=8520): 
+ip address (default=127.0.0.1): 
+```
+The network id is the id you have chosen for your Blockchain. You can view it in the genesis file.
+
+The Console port and RPC port can be whichever port you want, as long as they are not used. Note that if you chose to create another node on the same machine, you have to chose ports that weren't chosen before.
+
+The ip address can be 127.0.0.1 (localhost) if you do not plan to connect nodes from another machine. If you want to connect nodes from another machine, the ip address will have to be a pingable addresse from the other machine.
 
 ## Ethereum node
 Here, we will see how to setup an ethereum node. note that you have repeat this process for every peer before connecting them in a network.

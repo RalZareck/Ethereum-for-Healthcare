@@ -29,6 +29,10 @@ GOROOT=...
 ```
 We can now start the setup for the ethereum network.
 
+## Setup Scripts
+
+We have made some setup scripts that can help you setup the ethereum network
+
 ## Ethereum node
 Here, we will see how to setup an ethereum node. note that you have repeat this process for every peer before connecting them in a network.
 
@@ -131,7 +135,7 @@ What would you like to do? (default = stats)
  4. Deploy network components
 > ^C // Ctrl+c to exit
 ```
-Once the genesis file is created, we have to edit the file and modify a parameter so blocks we only be created when there is a transaction 
+Once the genesis file is created, we have to edit the file and modify a parameter so blocks will only be created when there is a new transaction 
 ```
 "period": 3 -> "period": 0,
 ```
@@ -155,37 +159,47 @@ at block: 0 (Fri, 20 Sep 2019 10:06:59 IST)
 datadir: /home/cybrosys/Work/devnet/node1
 modules: admin:1.0 clique:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0
 ```
-Here are several useful commands (command//result):
+**Here are several useful commands:**
 
 Get the account address :
 ```
-eth.coinbase // "0x95491f49d86d68ab43f55db5b6679b4d90f1ea84"
+> eth.coinbase
+"0x95491f49d86d68ab43f55db5b6679b4d90f1ea84"
 ```
 Unlock the account (you need to unlock an account whenever you want to do an action with it) :
 ```
-personal.unlockAccount(<account_address>,”yourpassword”,<time_unlock>) // true
-personal.unlockAccount(eth.coinbase,"pswd",3000) or personal.unlockAccount(eth.accounts[1],”yourpassword”,3000)
+> personal.unlockAccount(<account_address>,”yourpassword”,<time_unlock>)
+true
+> personal.unlockAccount(eth.coinbase,"pswd",3000) or personal.unlockAccount(eth.accounts[1],”yourpassword”,3000)
 ```
 Create a new account on the node :
 ```
-personal.newAccount(“yourpassword”) // "0x99316969752a421b5ddc6e04b17274c2fd0d22a7"
+> personal.newAccount(“yourpassword”)
+"0x99316969752a421b5ddc6e04b17274c2fd0d22a7"
 ```
 Check the balance :
 ```
-eth.getBalance(<account_address>) // 9.046256971665327767466483203803742801036717552003169065582623750618213253
+> eth.getBalance(<account_address>) 
+9.046256971665327767466483203803742801036717552003169065582623750618213253
 ```
 Make a fund transaction (A miner has to be active in order to valid the transaction) : 
 ```
-web3.eth.sendTransaction({from:eth.coinbase,to:eth.accounts[1],value:web3.toWei(300,"ether")}) // "0xfce0e4b502691995c025c7980ac8a1b77592b96fd474e2bc6ee51a6504716fb3"
+> web3.eth.sendTransaction({from:eth.coinbase,to:eth.accounts[1],value:web3.toWei(300,"ether")}) "0xfce0e4b502691995c025c7980ac8a1b77592b96fd474e2bc6ee51a6504716fb3"
 ```
 Start mining :
 ```
-miner.start() // null
+> miner.start() 
+null
 ```
 Open the log file (not in the geth console) :
 ```
 $ tail -f eth.log
 ```
+Load a script file :
+```
+> loadScript('<script.js>')
+```
+## Ethereum Peer Connection
 
 **How to connect Multiple node to the POA network:**
 
@@ -197,3 +211,18 @@ We can check that nodes are connected with this command in the geth console of n
 ```
 admin.peers
 ```
+
+**Static conections between nodes:**
+
+You can also make static connections between nodes. When it is done, the node will automatically try to connect to the nodes given in the file (by their enode).
+
+To do this, go in the folder `pnet/node1/geth` and add (or edit) the file `static-nodes.json`. Here is the format of the file:
+```
+[
+ "enode://<node2_account_address>@<node2_IP_address>:3010"
+]
+```
+You can do the same thing for the trusted nodes, by adding the file `trusted-nodes.json`. The format is the same as `static-nodes.json and has to be placed in the same folder (`pnet/node1/geth`)
+
+## Smart contract deployment
+

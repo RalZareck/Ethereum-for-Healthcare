@@ -76,7 +76,7 @@ The ip address can be 127.0.0.1 (localhost) if you do not plan to connect nodes 
 ## Ethereum node
 Here, we will see how to setup an ethereum node. note that you have repeat this process for every peer before connecting them in a network.
 
-First, start by creating a working environment:
+First, start by creating a working environment (here, 'pnet' is already created):
 ```
 ~$ mkdir pnet
 ~$ cd pnet

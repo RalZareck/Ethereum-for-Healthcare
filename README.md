@@ -149,7 +149,7 @@ pnet$ geth --datadir node1/ init pnet.json
 
 Now that everything is set up, we can start the geth console :
 ```
-geth --port 3010 --networkid 7410 --datadir=./node1 --syncmode "full" --maxpeers=50  --rpc --rpcport 8520 --rpcaddr <IP_address> --rpccorsdomain "*" --rpcapi "eth,net,web3,personal,miner" --allow-insecure-unlock console 2 >> eth.log
+geth --port 3010 --networkid 7410 --datadir=./node1 --syncmode "full" --maxpeers=50  --rpc --rpcport 8520 --rpcaddr <IP_address> --rpccorsdomain "*" --rpcapi "eth,net,web3,personal,miner" --allow-insecure-unlock console 2>> eth.log
 ```
 The console should look like this
 ```

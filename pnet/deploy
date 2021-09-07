@@ -1,17 +1,26 @@
 #!/bin/bash
 
-read -e -p "Solididy smart contract: " contract
+if [[ -z $1 ]]
+then
+    read -e -p "Solididy smart contract: " contract
+else
+    contract=$1
+fi
+
 contractName="${contract%.*}"
 deployJs="${contractName}Deploy.js"
-
+contractSol=`cat $contract`
+contractSol="${contractSol#*contract}"
+contractSol="${contractSol%%\{*}"
+contractSol=`echo $contractSol | sed -r 's/ //g'`
 printf "personal.unlockAccount(eth.coinbase);\n" > $deployJs
 printf "miner.start();\n" >> $deployJs
 
 
 printf "var $contractName=`solc --optimize --combined-json abi,bin,interface $contract`;\n" >> $deployJs
-printf "var ${contractName}Abi = $contractName.contracts['$contract:${contractName^^}'].abi;\n" >> $deployJs
+printf "var ${contractName}Abi = $contractName.contracts['$contract:${contractSol}'].abi;\n" >> $deployJs
 printf "var ${contractName}Contract = eth.contract(${contractName}Abi);\n" >> $deployJs
-printf "var ${contractName}Bin = \"0x\" + $contractName.contracts['$contract:${contractName^^}'].bin;\n" >> $deployJs
+printf "var ${contractName}Bin = \"0x\" + $contractName.contracts['$contract:${contractSol}'].bin;\n" >> $deployJs
 
 # Deployement of the contract
 

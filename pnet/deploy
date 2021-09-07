@@ -1,0 +1,22 @@
+#!/bin/bash
+
+read -e -p "Solididy smart contract: " contract
+contractName="${contract%.*}"
+deployJs="${contractName}Deploy.js"
+
+printf "personal.unlockAccount(eth.coinbase);\n" > $deployJs
+printf "miner.start();\n" >> $deployJs
+
+
+printf "var $contractName=`solc --optimize --combined-json abi,bin,interface $contract`;\n" >> $deployJs
+printf "var ${contractName}Abi = $contractName.contracts['$contract:${contractName^^}'].abi;\n" >> $deployJs
+printf "var ${contractName}Contract = eth.contract(${contractName}Abi);\n" >> $deployJs
+printf "var ${contractName}Bin = \"0x\" + $contractName.contracts['$contract:${contractName^^}'].bin;\n" >> $deployJs
+
+# Deployement of the contract
+
+printf "var deployTransactionObject = {from:eth.coinbase, data:${contractName}Bin, gass:1000000};\n" >> $deployJs
+printf "var ${contractName}Instance = ${contractName}Contract.new(deployTransactionObject);\n" >> $deployJs
+printf "var ${contractName}Addr = eth.getTransactionReceipt(${contractName}Instance.transactionHash).contractAddress;\n" > ${contractName}.js
+printf "var $contractName = ${contractName}Contract.at(${contractName}Addr);\n" >> ${contractName}.js
+

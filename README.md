@@ -76,7 +76,7 @@ The ip address can be 127.0.0.1 (localhost) if you do not plan to connect nodes 
 ## Ethereum node
 Here, we will see how to setup an ethereum node. note that you have repeat this process for every peer before connecting them in a network.
 
-First, start by creating a working environment:
+First, start by creating a working environment (here, 'pnet' is already created):
 ```
 ~$ mkdir pnet
 ~$ cd pnet
@@ -266,3 +266,57 @@ You can do the same thing for the trusted nodes, by adding the file `trusted-nod
 
 ## Smart contract deployment
 
+**1. Install solc (needed to compile the smart contract)**
+```
+$ sudo apt-get install -y solc
+```
+Check installation :
+```
+solc --version and geth version
+```
+**2. Write a smart contract**
+
+First we need to create a .sol file. An example can be find at : https://medium.com/@soulmachine/develop-smart-contracts-using-solc-and-geth-f811ba917fca
+
+**3. Compile a smart contract**
+
+To compile the smart contract we just need to run the following command, the compilation is handle by geth.
+```
+$ echo "var storageOutput=`solc --optimize --combined-json abi,bin,interface Storage.sol`" > storage.js
+```
+Once it's done, launch the geth console and use this command :
+```
+> loadScript('storage.js')
+```
+We need some variables to be able to interact with the smart contract :
+```
+> var storageContractAbi = storageOutput.contracts['Storage.sol:Storage'].abi 
+> var storageContract = eth.contract(JSON.parse(storageContractAbi))
+> var storageBinCode = "0x" + storageOutput.contracts['Storage.sol:Storage'].bin
+```
+Note : If the second command doesn't work, try without «JSON.parse».
+
+**4. Deploy**
+
+First, we need to unlock the account, then we can deploy the smart contract :
+```
+> var deployTransationObject = {from: eth.accounts[0], data: storageBinCode, gas: 1000000 }; 
+> var storageInstance = storageContract.new(deployTransationObject)
+```
+Now we need the smart contract address (wait a little for the transaction to be mined) :
+```
+> eth.getTransactionReceipt(storageInstance.transactionHash)
+```
+```
+> var storageAddress = eth.getTransactionReceipt(storageInstance.transactionHash).contractAddress;
+> var storage = storageContract.at(storageAddress);
+```
+Now we can interact with the smart contract:
+```
+> storage.get.call()
+0 
+> storage.set.sendTransaction(42, {from: eth.accounts[0], gas: 1000000})
+"0x7a54ab329fcbf551432eb78c4b2a1ff48fc8b9f9aa23d94fa86330e5c1d711f3"
+> storage.get.call()
+42
+```

@@ -2,7 +2,7 @@
 
 ## Creation of the Account
 
-read -p "Name of node to create/manage: " name
+read -e -p "Name of node to create/manage: " name
 present=`ls`
 
 if [[ -z $name ]]
@@ -28,7 +28,7 @@ fi
 
 ## Initialisation of the node
 printf "\n\n"
-read -p "Genesis file (press enter to start the genesis file configuration): " genesis
+read -e -p "Genesis file (press enter to start the genesis file configuration): " genesis
 
 if [[ -n "$genesis" ]]
 then
